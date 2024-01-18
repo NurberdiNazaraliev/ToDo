@@ -1,0 +1,50 @@
+{%extends 'todolist/base.html'%}
+{%block content%}
+
+<div style="margin-top: 50px;" class="ui container">
+    <h1 class="ui center aligned header">Tasklist</h1>
+    <h3 class="test_style">Manage your tasks</h3>
+    <form class="ui form" action="{% url 'add' %}" method="post">
+        {% csrf_token %}
+        <div class="field">
+            <label>Add new Task</label>
+            <input type="text" name="title" placeholder="Task name"><br>
+            <label>Add Task Description</label>
+            <input type="text" name="description" placeholder="Description"><br>
+        </div>
+        <button class="ui teal basic button" type="submit">Add</button>
+
+    </form>
+
+
+
+
+
+
+
+{% for todo in todos %}
+<div class="ui segment">
+    <p class="ui big header">№{{ todo.id }} {{ todo.title }}</p>
+    <p>{{ todo.description }}</p>
+    {% if todo.is_complete == False %}
+    <span class="ui gray label">Not Completed</span>
+    <a class="ui primary basic button" href="{% url 'update' todo_id=todo.id %}">Complete</a>
+    {% else %}
+    <span class="ui green label">Completed</span>
+    <a class="ui blue button" href="{% url 'update' todo_id=todo.id %}">Redo</a>
+    {% endif %}
+    <a class="ui negative basic button" href="{% url 'delete' todo_id=todo.id %}">Delete</a>
+    <a class="ui secondary button" href="{% url 'edit' todo_id=todo.id %}">edit</a>
+</div>
+{% endfor %}
+</div>
+
+
+
+
+
+
+
+
+
+{%endblock%}
